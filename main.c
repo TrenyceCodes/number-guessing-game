@@ -34,7 +34,7 @@ void setGameSettings(int chosen_level, game* gameSettings) {
 int computerPickRandNum() {
   int numPicked;
   int min = 1;
-  int max = 5;
+  int max = 100;
   
   srand(time(NULL));
 
