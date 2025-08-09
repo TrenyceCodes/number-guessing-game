@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -5,16 +6,9 @@
 #include <time.h>
 #include <stdbool.h>
 
-typedef enum {
-  EASY = 1,
-  MEDIUM,
-  HARD,
-  NOTSET,
-} GameLevel;
 
 typedef struct Game {
   int chances;
-  GameLevel gameLevel;
 } game;
 
 //sets up game level and chances depending on users chosen game level
@@ -22,17 +16,14 @@ void setGameSettings(int chosen_level, game* gameSettings) {
   switch (chosen_level) {
       case 1:
         gameSettings->chances = 10;
-        gameSettings->gameLevel = EASY;
         printf("Great! You have selected the Easy difficulty level.\n");
         return;
       case 2:
         gameSettings->chances = 5;
-        gameSettings->gameLevel = MEDIUM;
         printf("Great! You have selected the Medium difficulty level.\n");
         return;
       case 3:
         gameSettings->chances = 3;
-        gameSettings->gameLevel = HARD;
         printf("Great! You have selected the Hard difficulty level.\n");
         return;
       default:
@@ -44,7 +35,7 @@ void setGameSettings(int chosen_level, game* gameSettings) {
 int computerPickRandNum() {
   int numPicked;
   int min = 1;
-  int max = 10;
+  int max = 5;
   
   srand(time(NULL));
 
@@ -54,10 +45,14 @@ int computerPickRandNum() {
   return numPicked;
 }
 
+void chancesLost(game* game) {
+  game->chances--;
+  printf("You have %d chances left.\n", game->chances);
+}
+
 int main() {
   game game; 
   game.chances = 5;
-  game.gameLevel = NOTSET;
 
   printf("Welcome to the Number Guessing Game!\n");
   printf("I'm thinking of a number between 1 and 100.\n");
@@ -90,17 +85,18 @@ int main() {
     
     if (user_guess == computer_pick) {
       printf("Congratulations! You guessed the correct number in %d attempts.\n", game.chances);
+      gameRunning = false;
     } else if (computer_pick < user_guess) {
       printf("Incorrect! The number is less than %d.\n", user_guess);
-      game.chances--;
+      chancesLost(&game);
     } else {
       printf("Incorrect! The number is greater than %d.\n", user_guess);
-      game.chances--;
+      chancesLost(&game);
     }
     
     if (game.chances == 0) {
       printf("You Lose! You run out of chances!\n");
-      break;
+      gameRunning = false;
     }
   }
 
