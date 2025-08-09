@@ -1,0 +1,2 @@
+#ignore bin directory with main build
+bin/
