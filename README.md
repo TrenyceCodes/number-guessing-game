@@ -12,3 +12,7 @@
 #### Future Implementations
  - Tracking user's high score
  - Allowing the user to play multiple rounds
+
+##### Installation Guide
+ - Project can be run using `./build.sh`
+ - Note: make sure to run chmod +x build.sh so you have permission from your system (my system is mac base so you may need to figure out how to get permission from your system). 
